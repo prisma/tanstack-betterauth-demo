@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-export const Route = createFileRoute('/')({ component: AuthPage })
+'use client';
 
-function AuthPage() {
-  const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in')
+import { useState } from 'react';
+
+export default function AuthPage() {
+  const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in');
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       <div className="max-w-md mx-auto pt-14 p-6">
@@ -27,24 +27,24 @@ function AuthPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
   const action =
-    mode === 'sign-in' ? '/api/auth/sign-in/email' : '/api/auth/sign-up/email'
+    mode === 'sign-in' ? '/api/auth/sign-in/email' : '/api/auth/sign-up/email';
   return (
     <form
       onSubmit={async (e) => {
-        e.preventDefault()
-        const form = e.currentTarget as HTMLFormElement
-        const formData = new FormData(form)
-        const email = String(formData.get('email') || '')
-        const password = String(formData.get('password') || '')
+        e.preventDefault();
+        const form = e.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+        const email = String(formData.get('email') || '');
+        const password = String(formData.get('password') || '');
         const name =
           mode === 'sign-up'
             ? String(formData.get('name') || email.split('@')[0] || 'User')
-            : undefined
+            : undefined;
         const res = await fetch(action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -54,12 +54,12 @@ function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
               ? { email, password }
               : { name, email, password },
           ),
-        })
+        });
         if (!res.ok) {
-          alert(`${mode} failed`)
-          return
+          alert(`${mode} failed`);
+          return;
         }
-        window.location.href = '/todos'
+        window.location.href = '/todos';
       }}
       className="space-y-3"
     >
@@ -90,5 +90,5 @@ function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
         {mode === 'sign-in' ? 'Sign In' : 'Sign Up'}
       </button>
     </form>
-  )
+  );
 }
