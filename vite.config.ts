@@ -9,7 +9,10 @@ import { nitro } from 'nitro/vite';
 const config = defineConfig({
   plugins: [
     devtools({}),
-    nitro(),
+    nitro({
+      serveStatic: 'deno',
+      preset: 'deno-deploy'
+    }),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
